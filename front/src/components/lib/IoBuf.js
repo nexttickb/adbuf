@@ -1,10 +1,12 @@
 /*
-	v1.1.1
+	v1.1.2
 	var io = new IoBuf();
 	io.callApi('https://www.baidu.com', {a:'', b:''}, (code, data)=>{
 		this.log('res:', code, data);
 	});
 */
+
+import comp from 'lz-string'
 
 class IoBuf{
 	constructor(addr) {
@@ -14,6 +16,7 @@ class IoBuf{
 		this.addr = addr || 'ws://97.64.82.95:3000/';
 	//	this.connect();
 		this.ws = false;
+		this.isComp = 1;
 	}
 	getReq(){
 		this.reqNum = (this.reqNum >= 999999 ? 0 : this.reqNum + 1);
@@ -50,7 +53,10 @@ class IoBuf{
 		
 	}
 	onMessage(e){
-		let buf = JSON.parse(e.data);
+		let ebuf = this.unCompress(e.data);
+		console.log('onMessage src:', e.data);
+		console.log('onMessage data:', ebuf);
+		let buf = JSON.parse(ebuf);
 		this.log(buf.req, buf.data, this.hold);//{req:111, code:0, data:''}
 		if(buf.req == 'message'){
 			return this.onSubMessage(buf.code, buf.data);
@@ -70,12 +76,24 @@ class IoBuf{
 			delete this.hold[buf.req];
 		}
 	}
+	compress(s){
+		if(!this.isComp)return s;
+	//	return comp.compress(s, {encoding: 'utf8'});
+		return comp.compressToUTF16(s, {encoding: 'utf8'});
+	}
+	unCompress(s){
+		if(!this.isComp)return s;
+	//	let data = comp.decompress(s);
+		let data = comp.decompressFromUTF16(s);
+		console.log('解压后:', data);
+		return data;
+	}
 	doSend(data){
 		console.log('ws:', this.ws);
 		if(this.ws.readyState === this.ws.CLOSED){
 			return console.log('ws error');
 		}
-		this.ws.send(data);
+		this.ws.send(this.compress(data));
 	}
 	//mode1 default  mode0 recv mode2 send 
 	callApi(name, params, cbfunc, conf){
