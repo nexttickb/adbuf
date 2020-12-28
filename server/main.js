@@ -24,32 +24,35 @@ class Server{
 		this.mod['Utils'] = new Utils(conf);
 
 		this.bus.subscribe('recv', (topic, res)=>{
-			this.onRecvData(res.sock, res.data);
+			this.onRecvData(res.sockId, res.data);
 		});
+	}
+	sendData(id, data){
+		this.bus.publish('send', {sockId:id, data:data});
 	}
 	async initDb(){
 		this.dbio = new Dbio();
 		await this.dbio.init({});
 	}
-	async onRecvData(sock, data){
+	async onRecvData(sockId, data){
 		let sbuf = JSON.parse(data);
 		let uri = sbuf.name.split('.');
 		let cname = uri[0] || '';
 		let fname = uri[1] || '';
 		if(uri.length < 2){
 			console.log('custom api:', uri);
-			let resData = await this.mod['Admin']['general'](cname, sbuf.params, {req:sbuf.req, sock:sock, sockId:sock.upgradeReq.headers['sec-websocket-key']});
+			let resData = await this.mod['Admin']['general'](cname, sbuf.params, {req:sbuf.req, sockId:sockId});
 			console.log(resData);
-			if(resData)sock.send(JSON.stringify({req: sbuf.req, code: resData.code, data: resData.data}));
+			if(resData)this.sendData(sockId, JSON.stringify({req: sbuf.req, code: resData.code, data: resData.data}));
 			return;	
 		}
 		console.log(uri);
 		if(typeof(this.mod[cname][fname]) == 'undefined'){
 			console.log('not find the func:', sbuf.name);
-			return sock.send(JSON.stringify({req: sbuf.req, code: -4, data: 'not find'}));
+			return this.sendData(sockId, JSON.stringify({req: sbuf.req, code: -4, data: 'not find'}));
 		}
-		let resData = await this.mod[cname][fname](sbuf.params, {req:sbuf.req, sock:sock, sockId:sock.upgradeReq.headers['sec-websocket-key']});
-		if(resData)sock.send(JSON.stringify({req: sbuf.req, code: resData.code, data: resData.data}));
+		let resData = await this.mod[cname][fname](sbuf.params, {req:sbuf.req, sockId:sockId});
+		if(resData)this.sendData(sockId, JSON.stringify({req: sbuf.req, code: resData.code, data: resData.data}));
 
 	}
 }
