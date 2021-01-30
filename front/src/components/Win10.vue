@@ -10,7 +10,8 @@
 	<div v-for="(item, id) in windows" :class="[item.isMax>=2?'':'', 'ElementWind', 'dragclass']" v-show="item.isMax" :style="item.style" @mousedown="winDrag($event, id)">
 		
 		<div class="winHead"  @dblclick="winDblclick(item)" style="height:1.3rem;">
-			<div :class="[item.ico]" style="float:left;height:1.3rem;width:1.3rem;"></div>
+			<div v-show="!item.icon" class="icon-app" style="float:left;height:1.3rem;width:1.3rem;"></div>
+			<div v-show="item.icon" :style="{background:'url('+item.icon+') no-repeat center center', backgroundSize:'60%', float:'left', width:'1.3rem', height:'1.3rem'}"></div>
 			<div style="float:left;">{{item.title}}</div>
 			<div @click="winClose(id)" class="min-btn">×</div>
 			<div v-show="1 == item.isMax" @click="winMax(id)" class="min-btn">□</div>
@@ -217,7 +218,7 @@ export default {
 			
 			document.onmousemove = (e)=>{
 				let et = new Date().getTime();
-				if(et - st < 20){//其实没什么大的卵用
+				if(et - st < 60){//其实没什么大的卵用
 					st = new Date().getTime();
 					return;
 				}
@@ -350,7 +351,7 @@ export default {
 				title:item.label,
 				conf:this.makeRichConf(item.name),
 				state:1,
-				ico:item.ico,
+				icon:item.icon,
 				zIndex:++this.maxZindex
 			};
 			if(!data.conf)return;
