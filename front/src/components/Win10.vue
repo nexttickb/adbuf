@@ -190,7 +190,8 @@ export default {
 		
 		RUNKIT.VoimBus.subscribe('config', (topic, res)=>{
 			if(res.type == 'pageList'){
-		//		console.log("pageList:", JSON.stringify(res.data));
+				console.log("pageList:", JSON.stringify(res.data));
+			//	alert(JSON.stringify(res.data));
 				this.$set(this, 'pageList', res.data);
 			}
 			if(res.type == 'menuList'){

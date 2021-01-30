@@ -1,5 +1,10 @@
 <template>
 	<div class='' style='flex:1;display:flex;border:3px solid #eee;'>
+		<div class="left-menus" style="">
+			<ul>
+				<li v-for="(value, key) in onlineData.onlineList" class="slideOutUp" :class="{active: value.active}" @click="onMenuClick(key, value)"><a>id:{{value.name}}</a></li>
+			</ul>
+		</div>
 		<div class="msg-left" style="">
 			
 			<div class="msg-header" style="box-sizing:border-box;padding-left:0.2rem;">
@@ -55,15 +60,19 @@
 		</div>
 		
 		<div class="msg-right scl info-panel" v-show="infoPanel.isOpen" style="display:flex;flex-direction:column;">
-			<div style="height:5rem;" class="scl">
+			<div style="height:5rem;background:#fff;" class="scl inner">
 				<div>国家:{{userInfo.user_ext.country}}</div>
 				<div>地区:{{userInfo.user_ext.area}}</div>
 				<div>系统:{{userInfo.user_ext.os}}</div>
 				<div>浏览器:{{userInfo.user_ext.browser}}</div>
 				<div>IP:{{userInfo.user_ext.ip}}</div>
+				<div>备注:{{userInfo.user_ext.remark}}</div>
 			</div>
-			<div style="background:#eee;flex:1;" class="scl">
-				<br v-for="i in 20" />
+			<div sytle="height:1rem;background:#000;box-sizing:border-box;" class="inner">
+			11
+			</div>
+			<div style="background:#fff;flex:1;" class="scl inner">
+				<p v-for="i in 20">{{i}}</p>
 			</div>
 		</div>
 		
@@ -72,7 +81,7 @@
 </template>
 
 <script>
-import STable from '@/components/STable.vue'
+
 export default {
 	name: 'Message',
 	data () {
@@ -80,6 +89,14 @@ export default {
 			isShow:1,
 			fPanelSelected:'msg',
 			messageInput:'',
+			onlineData:{
+			onlineList:{
+					"1111111":{name:"hello0", active:0},
+					"1111112":{name:"hello1", active:1},
+					"1111113":{name:"hello2", active:0},
+					"1111114":{name:"hello3", active:0}
+				}
+			},
 			userInfo:{
 				user_name:'',
 				user_id:'',
@@ -92,7 +109,7 @@ export default {
 			
 		}
 	},
-	components:{STable},
+	components:{},
 	props: ['id', 'msg'],
 	created:function(){
 
@@ -208,7 +225,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="less" scoped>
 	*{
 		outline:none;
 	}
@@ -240,7 +257,7 @@ export default {
 		background:#333;color:#0f0;
 	}
 	.msg-right{
-		width:9rem;border-left:1px solid #ddd;padding:0.1rem;
+		width:7rem;margin-left:0.2rem;
 	}
 	.msg-display{
 		flex:1;padding:0.1rem;
@@ -281,10 +298,6 @@ export default {
 		background:url('../assets/icon/list.svg') no-repeat center;
 		background-size: 80% 80%;
 	}
-	
-	
-	
-	
 	
 	.msg-item {
 		margin-top:0.8rem;
@@ -399,9 +412,61 @@ export default {
 		font-size:0.6rem;
 		line-height:0.8rem;
 		box-sizing:border-box;
-		padding:0.2rem;
+
 		&>div{
 			width:100%;float:left;
 		}
 	}
+	.inner{
+		box-sizing:border-box;
+		padding:0.1rem;
+	}
+	
+	.left-menus{
+		@left-menu-bg-color:#fff;
+		@left-menu-active-color:#38f;
+		@left-menu-height:35px;
+		@left-menu-font-color:#666;
+		
+		width:7rem;
+		box-sizing:border-box;
+		margin-right:5px;
+		color:#333;
+		ul{
+			margin:0px;
+			padding:0px;
+			li{
+				list-style:none;
+				cursor:pointer;
+				width:100%;
+				height:@left-menu-height;
+				margin-bottom:2px;
+				text-align:center;
+				background:@left-menu-bg-color;
+				line-height:@left-menu-height;
+				color:@left-menu-font-color;
+			}
+			.active{
+				color:@left-menu-bg-color;
+				background:@left-menu-active-color;
+			}
+		}
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 </style>
