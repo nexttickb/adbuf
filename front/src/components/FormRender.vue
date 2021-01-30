@@ -11,6 +11,7 @@
 				<input type="text" :placeholder="item.placeholder" @focus="onDomEvent($event, item)" @change="onDomEvent($event, item)" @blur="onDomEvent($event, item)" @dbclick="onDomEvent($event, item)" @click="onDomEvent($event, item)" :readonly="item.readonly || item.myReadonly" v-model="item.value" :data="item.name" class="form-control validate[required] new_name" />
 			</div>
 		</div>
+		
 		<div :class="[getWidth(item.cols)]" :dname="item.name" :draggable="model" v-if="'password' == item.type">
 			<label  :for="formUid + item.name" :class="['mylabel', 'control-label', item.label==''?'hide':'']"><span v-if="model == 1" class="badge">{{getOrderByName(item.name)}}</span>{{item.label}}</label>
 			</label>
@@ -134,6 +135,11 @@
 			<textarea style="background:#000;color:#fff;font-size:0.5rem;" :placeholder="item.placeholder" :readonly="item.readonly || item.myReadonly" @focus="onDomEvent($event, item)" @change="onDomEvent($event, item)" @blur="onDomEvent($event, item)" @dbclick="onDomEvent($event, item)" @click="onDomEvent($event, item)" :rows="item.rows?item.rows:3" v-model="item.value" :data="item.name" class="form-control new_name" ></textarea>
 		</div>
 		
+		<div :class="[getWidth(item.cols)]" :dname="item.name" :draggable="model" v-if="item.type == 'icon'">
+			<label :for="formUid + item.name" class="mylabel control-label"><span v-if="model == 1" class="badge">{{getOrderByName(item.name)}}</span>{{item.label}}</label>
+			<IconUploader :value="item.value" @selected="setFormData" :id="item.name" :name="item.name" :placeholder="item.placeholder"></IconUploader>
+		</div>
+		
 		<div :class="[getWidth(item.cols)]" :dname="item.name" :draggable="model" v-if="item.type == 'image'">
 			<label :for="formUid + item.name" class="mylabel control-label"><span v-if="model == 1" class="badge">{{getOrderByName(item.name)}}</span>{{item.label}}</label>
 			<ImgUploader :value="item.value" @selected="setFormData" :id="item.name" :name="item.name" :placeholder="item.placeholder"></ImgUploader>
@@ -171,6 +177,7 @@
 <script>
 
 import ImgUploader from '@/components/ImgUploader'
+import IconUploader from '@/components/IconUploader'
 import FileUploader from '@/components/FileUploader'
 
 import NetSelect from '@/components/NetSelect'
@@ -184,7 +191,7 @@ export default {
 		  group: String,
 		  billInfo: Object
 	  },
-	  components:{ImgUploader,FileUploader,NetSelect, /*pageGrid, */PageGrid},
+	  components:{IconUploader,ImgUploader,FileUploader,NetSelect, /*pageGrid, */PageGrid},
 	  data: function () {
 			return {
 				formUid:"uid_" + (new Date().getTime()) + "_",

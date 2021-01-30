@@ -71,12 +71,12 @@ export default {
 				}
 			}
 			let menuList = [//内置
-				{ico:'icon-app', id:'id_menuList', name:'menuList', 	label:'菜单管理'},
-				{ico:'icon-app', id:'id_appList', name:'appManage', 	label:'应用管理'},
-				{ico:'icon-app', id:'id_apiList', name:'apiManage', 	label:'接口管理'},
+				{icon:'', id:'id_menuList', name:'menuList', 	label:'菜单管理'},
+				{icon:'', id:'id_appList', name:'appManage', 	label:'应用管理'},
+				{icon:'', id:'id_apiList', name:'apiManage', 	label:'接口管理'},
 			];
 			for(let i = 0; i < menus.length; i++){
-				menuList.push({ico:'icon-app', id:menus[i].menu_id, name:menus[i].menu_app, 	label:menus[i].menu_title});
+				menuList.push({icon:menus[i].menu_icon, id:menus[i].menu_id, name:menus[i].menu_app, 	label:menus[i].menu_title});
 			}
 			RUNKIT.VoimBus.publish('config', {type:'pageList', data: pageList});
 			RUNKIT.VoimBus.publish('config', {type:'menuList', data: menuList});

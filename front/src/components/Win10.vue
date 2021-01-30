@@ -37,8 +37,8 @@
 	<div class="disktop" ref="disktop" style="">
 		<div @dragover="allowDrop($event, index)" @click.right="rightEvent(item)" v-for="(item, index) in diskIcoBox" :index='index' class="icon-box" style="">
 			<div @dragend="dragEnd($event, index)" draggable="true" v-if='item.id' @click="selectIco(item)" @dblclick="winCreate(item)" class="icon-inner" style="flex:1;display:flex;flex-direction:column;">
-				<div style='flex:1;' :class="[item.ico]"></div>
-				<div style="height:1rem;font-size:0.5rem;text-align:center;">{{item.label}}</div>
+				<div style='flex:1;text-align:center;box-sizing:border-box;' :class="[item.icon?'':'icon-app']"><img style="margin-top:0.2rem;width:1.6rem;height:1.6rem;border-radius:0.2rem;" v-show="item.icon" :src="item.icon" /></div>
+				<div style="height:1rem;font-size:0.5rem;text-align:center;text-shadow: 1px 1px 1px #333;">{{item.label}}</div>
 
 			</div>
 		</div>
@@ -409,7 +409,7 @@ export default {
 			
 			//页面resize后 初始化网格
 			for(let i = 0; i < this.disktop.iconCountH * this.disktop.iconCountW; i++){
-				this.diskIcoBox.push({id:'', label:''});
+				this.diskIcoBox.push({id:'', label:'', icon:''});
 			}
 			
 			//把菜单塞进网格

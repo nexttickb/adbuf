@@ -84,7 +84,7 @@ export default  {
 			form:[
 				{"name": "menu_id", 		"value":"",	"label": "id","cols": 1,"order": 0,"type": "hidden"},
 				{"name": "menu_type", 	"value":"",	"label": "类型","cols": 1,"order": 0,"type": "input"},
-				{"name": "menu_icon", 	"value":"",	"label": "图标","cols": 1,"order": 0,"type": "input"},
+				{"name": "menu_icon", 	"value":"",	"label": "图标","cols": 1,"order": 0,"type": "icon"},
 				{"name": "menu_title", 	"value":"",	"label": "标题","cols": 1,"order": 0,"type": "input"},
 				{"name": "menu_description", 	"value":"",	"label": "描述","cols": 1,"order": 0,"type": "input"},
 				{"name": "menu_app", 	"value":"",	"label": "应用","cols": 3,"order": 0,"type": "input"},
@@ -99,7 +99,7 @@ export default  {
 			form:[
 				{"name": "menu_id", 		"value":"",	"label": "id","cols": 1,"order": 0,"type": "hidden"},
 				{"name": "menu_type", 	"value":"",	"label": "类型","cols": 1,"order": 0,"type": "input"},
-				{"name": "menu_icon", 	"value":"",	"label": "图标","cols": 1,"order": 0,"type": "input"},
+				{"name": "menu_icon", 	"value":"",	"label": "图标","cols": 1,"order": 0,"type": "icon"},
 				{"name": "menu_title", 	"value":"",	"label": "标题","cols": 1,"order": 0,"type": "input"},
 				{"name": "menu_description", 	"value":"",	"label": "描述","cols": 1,"order": 0,"type": "input"},
 				{"name": "menu_app", 	"value":"",	"label": "应用","cols": 3,"order": 0,"type": "input"},

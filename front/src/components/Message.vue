@@ -1,17 +1,25 @@
 <template>
-	<div class='' style='flex:1;display:flex;border:3px solid #eee;'>
-		<div class="left-menus" style="">
-			<ul>
-				<li v-for="(value, key) in onlineData.onlineList" class="slideOutUp" :class="{active: value.active}" @click="onMenuClick(key, value)"><a>id:{{value.name}}</a></li>
-			</ul>
+	<div class='' style='flex:1;display:flex;'>
+		<div class="msg-lr-panel info-panel" style="display:flex;flex-direction:column;">
+			<div style="height:1.2rem;line-height:1.2rem;box-sizing:border-box;display:flex;" class="inner">
+				<div @click="userTypeTab = 0" :class="[userTypeTab == 0?'tab-active':'','tab']">待回复</div>
+				<div @click="userTypeTab = 1" :class="[userTypeTab == 1?'tab-active':'','tab']">最近联系</div>
+			</div>
+			<div style="height:1rem;box-sizing:border-box;display:flex;" class="inner">
+				<input style="width:100%;font-size:0.5rem;border:1px solid #ccc;border-radius:0.2rem;" class="tab" type="text" />
+			</div>
+			<div style="background:#fff;flex:1;" class="scl inner">
+				<div style="float:left;width:100%;height:2rem;border-top:1px solid #eee;" v-for="(value, key) in onlineData.onlineList"  :class="[activeUserId == key?'active':'']" @click="onMenuClick(key, value)">
+					<div style="height:1rem;line-height:1rem;display:flex;"><div style="flex:1">客户: {{value.name}}</div><div style="width:2rem;color:#999">00:42</div></div>
+					<div style="height:0.9rem;color:#666;">你好....</div>
+				</div>
+			</div>
 		</div>
-		<div class="msg-left" style="">
+		<div style="flex:1;display:flex;flex-direction:column;">
 			
 			<div class="msg-header" style="box-sizing:border-box;padding-left:0.2rem;">
 				<div style="width:9rem;float:left;overflow:hidden">{{userInfo.user_name}}</div>
 				<div class="msg-menu list" @click="infoPanel.isOpen = !infoPanel.isOpen"></div>
-				<div class="msg-menu msg" @click="fPanelSelected = 'msg'"></div>
-				<div class="msg-menu console" @click="fPanelSelected = 'term'"></div>
 			</div>
 			
 			<div class="msg-body" style="overflow-y:scroll">
@@ -59,7 +67,7 @@
 			</div>
 		</div>
 		
-		<div class="msg-right scl info-panel" v-show="infoPanel.isOpen" style="display:flex;flex-direction:column;">
+		<div class="msg-lr-panel info-panel" v-show="infoPanel.isOpen" style="display:flex;flex-direction:column;">
 			<div style="height:5rem;background:#fff;" class="scl inner">
 				<div>国家:{{userInfo.user_ext.country}}</div>
 				<div>地区:{{userInfo.user_ext.area}}</div>
@@ -68,11 +76,16 @@
 				<div>IP:{{userInfo.user_ext.ip}}</div>
 				<div>备注:{{userInfo.user_ext.remark}}</div>
 			</div>
-			<div sytle="height:1rem;background:#000;box-sizing:border-box;" class="inner">
-			11
+			<div style="height:1.2rem;line-height:1.2rem;box-sizing:border-box;display:flex;" class="inner">
+				<div @click="fastMsgTab = 0" :class="[fastMsgTab == 0?'tab-active':'','tab']">个人快捷语</div>
+				<div @click="fastMsgTab = 1" :class="[fastMsgTab == 1?'tab-active':'','tab']">公共快捷语</div>
+			</div>
+			<div style="height:1rem;box-sizing:border-box;display:flex;" class="inner">
+				<input style="width:100%;font-size:0.5rem;border:1px solid #ccc;border-radius:0.2rem;" class="tab" type="text" />
 			</div>
 			<div style="background:#fff;flex:1;" class="scl inner">
-				<p v-for="i in 20">{{i}}</p>
+				<p v-show="fastMsgTab == 0" v-for="i in 20">个人{{i}}</p>
+				<p v-show="fastMsgTab == 1" v-for="i in 20">公共{{i}}</p>
 			</div>
 		</div>
 		
@@ -88,10 +101,25 @@ export default {
 		return {
 			isShow:1,
 			fPanelSelected:'msg',
+			fastMsgTab:0,
+			userTypeTab:0,
+			activeUserId:'',
 			messageInput:'',
 			onlineData:{
 			onlineList:{
 					"1111111":{name:"hello0", active:0},
+					"1111112":{name:"hello1", active:1},
+					"11131113":{name:"hello2", active:0},
+					"11114111":{name:"hello0", active:0},
+					"11111512":{name:"hello1", active:1},
+					"11112113":{name:"hello2", active:0},
+					"111123111":{name:"hello0", active:0},
+					"111114412":{name:"hello1", active:1},
+					"11112113":{name:"hello2", active:0},
+					"11121111":{name:"hello0", active:0},
+					"1123411112":{name:"hello1", active:1},
+					"1111153413":{name:"hello2", active:0},
+					"1111145611":{name:"hello0", active:0},
 					"1111112":{name:"hello1", active:1},
 					"1111113":{name:"hello2", active:0},
 					"1111114":{name:"hello3", active:0}
@@ -221,6 +249,10 @@ export default {
 			console.log("up", e);
 			window.baiduAsrPlugin.stop();
 		},
+		onMenuClick(k, v){
+			this.activeUserId = k;
+			console.log(k, v);
+		}
 	}
 }
 </script>
@@ -231,9 +263,6 @@ export default {
 	}
 	.message{
 		display:flex;flex-direction:row;
-	}
-	.msg-left{
-		flex:1;display:flex;flex-direction:column;
 	}
 	.msg-body{
 		flex:1;display:flex;flex-direction:column;
@@ -256,8 +285,8 @@ export default {
 	.term{
 		background:#333;color:#0f0;
 	}
-	.msg-right{
-		width:7rem;margin-left:0.2rem;
+	.msg-lr-panel{
+		width:7rem;
 	}
 	.msg-display{
 		flex:1;padding:0.1rem;
@@ -298,6 +327,7 @@ export default {
 		background:url('../assets/icon/list.svg') no-repeat center;
 		background-size: 80% 80%;
 	}
+
 	
 	.msg-item {
 		margin-top:0.8rem;
@@ -406,7 +436,18 @@ export default {
 		background:#fff;
 		color:#ccc;
 	}
-			
+		
+	.tab{
+		flex:1;
+		font-size:0.6rem;
+		text-align:center;
+		padding-bottom:0.1rem;
+	}
+	.tab-active{
+		font-weight:bold;
+		color:#58bc9c;
+		border-bottom:1px solid #58bc9c;
+	}
 			
 	.info-panel{
 		font-size:0.6rem;
@@ -422,6 +463,7 @@ export default {
 		padding:0.1rem;
 	}
 	
+	
 	.left-menus{
 		@left-menu-bg-color:#fff;
 		@left-menu-active-color:#38f;
@@ -430,7 +472,6 @@ export default {
 		
 		width:7rem;
 		box-sizing:border-box;
-		margin-right:5px;
 		color:#333;
 		ul{
 			margin:0px;
@@ -441,7 +482,9 @@ export default {
 				width:100%;
 				height:@left-menu-height;
 				margin-bottom:2px;
-				text-align:center;
+				text-align:left;
+				padding:0.1rem;
+				font-size:0.7rem;
 				background:@left-menu-bg-color;
 				line-height:@left-menu-height;
 				color:@left-menu-font-color;
