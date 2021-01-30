@@ -62,7 +62,8 @@
 		<div @click="startShow = !startShow" class="start icon-start" style="width:2.6rem"></div>
 		<div class="task-btns" style="flex:1;">
 			<div v-for="(item, id) in windows" @click="winTop(id)" :class="[item.ico, item.id == activeWinId?'win-active':'','task-btn']" style="">
-				<div :class="[item.ico,'task-ico']"></div>
+				<div v-show="!item.icon" class="icon-app" style="height:1.6rem;width:1.6rem;"></div>
+				<div v-show="item.icon" :style="{background:'url('+item.icon+') no-repeat center center', backgroundSize:'60%', width:'1.6rem', height:'1.6rem'}"></div>
 			</div>
 		</div>
 		<div class="tray" style="width:5rem">
