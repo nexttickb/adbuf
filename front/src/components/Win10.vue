@@ -218,10 +218,8 @@ export default {
 			
 			document.onmousemove = (e)=>{
 				let et = new Date().getTime();
-				if(et - st < 60){//其实没什么大的卵用
-					st = new Date().getTime();
-					return;
-				}
+				if(et - st < 10)return;//降频
+				st = et + 0;
 				if(isFirst){//这里处理的不漂亮
 					isFirst = 0;
 					if(this.getAttr(id, 'isMax') == 2){
