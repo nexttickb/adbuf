@@ -16,7 +16,7 @@ class IoBuf{
 		this.addr = addr || 'ws://97.64.82.95:3000/';
 	//	this.connect();
 		this.ws = false;
-		this.isComp = 1;
+		this.isComp = 0;
 	}
 	getReq(){
 		this.reqNum = (this.reqNum >= 999999 ? 0 : this.reqNum + 1);
