@@ -139,6 +139,8 @@ class ServerApi extends IoBuf{
 			});
 		});
     }
+
+	
 	async checkLogin(){
 		return new Promise((resolve, reject)=> {
 			this.send('Admin.checkLogin', {}, (code, data, time)=>{

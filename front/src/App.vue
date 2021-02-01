@@ -62,8 +62,10 @@ export default {
 			let apps = res.data.apps;
 			let menus = res.data.menus;
 			let pageList = Configs;//内置
+		//	alert(JSON.stringify(apps));
 			for(let i = 0; i < apps.length; i++){
 				try{
+			//		alert(apps[i].app_name);
 					eval('pageList[apps[i].app_name] = {' + apps[i].app_code + '}');
 				}catch(e){
 					console.log('加载app:' + apps[i].app_name + ' 失败！');

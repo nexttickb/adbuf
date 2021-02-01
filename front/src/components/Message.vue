@@ -9,9 +9,9 @@
 				<input style="width:100%;font-size:0.5rem;border:1px solid #ccc;border-radius:0.2rem;" class="tab" type="text" />
 			</div>
 			<div style="background:#fff;flex:1;" class="scl inner">
-				<div style="float:left;width:100%;height:2rem;border-top:1px solid #eee;" v-for="(value, key) in onlineData.onlineList"  :class="[activeUserId == key?'active':'']" @click="onMenuClick(key, value)">
-					<div style="height:1rem;line-height:1rem;display:flex;"><div style="flex:1">客户: {{value.name}}</div><div style="width:2rem;color:#ccc">00:42</div></div>
-					<div style="height:0.9rem;color:#ccc;">你好....</div>
+				<div style="float:left;width:100%;height:2rem;border-top:1px solid #eee;" v-for="(value, key) in onlineList"  :class="[activeUserId == key?'active':'']" @click="onMenuClick(key, value)">
+					<div style="height:1rem;line-height:1rem;display:flex;"><div style="flex:1;overflow:hidden">{{value.user_name}}</div><div style="width:2rem;color:#ccc">00:42</div></div>
+					<div style="height:0.9rem;color:#ccc;">{{value.user_name}}</div>
 				</div>
 			</div>
 		</div>
@@ -105,26 +105,9 @@ export default {
 			userTypeTab:0,
 			activeUserId:'',
 			messageInput:'',
-			onlineData:{
-			onlineList:{
-					"1111111":{name:"hello0", active:0},
-					"1111112":{name:"hello1", active:1},
-					"11131113":{name:"hello2", active:0},
-					"11114111":{name:"hello0", active:0},
-					"11111512":{name:"hello1", active:1},
-					"11112113":{name:"hello2", active:0},
-					"111123111":{name:"hello0", active:0},
-					"111114412":{name:"hello1", active:1},
-					"11112113":{name:"hello2", active:0},
-					"11121111":{name:"hello0", active:0},
-					"1123411112":{name:"hello1", active:1},
-					"1111153413":{name:"hello2", active:0},
-					"1111145611":{name:"hello0", active:0},
-					"1111112":{name:"hello1", active:1},
-					"1111113":{name:"hello2", active:0},
-					"1111114":{name:"hello3", active:0}
-				}
-			},
+			onlineList:[
+				{user_name:"hello0", active:0},
+			],
 			userInfo:{
 				user_name:'',
 				user_id:'',
@@ -166,7 +149,7 @@ export default {
 				this.init();
 			}
 		});
-		this.initBook();
+		this.getUserList();
 	},
 	methods:{
 		init(params){
@@ -189,10 +172,11 @@ export default {
 		},
 		setConf(data){
 		},
-		initBook(){
-
+		getUserList(){
+			RUNKIT.ServerApi.send("Admin.userList", {}, (bl, res)=>{
+				this.onlineList = JSON.parse(JSON.stringify(res.list));
+			});
 		},
-		
 		onRecvData(data){
 			console.log("recv:", data);
 			if(data.type =='ack'){
@@ -253,9 +237,9 @@ export default {
 			this.activeUserId = k;
 
 			//test
-			this.userInfo.user_name =v.name;
-			this.userInfo.user_id = k;
-			this.userInfo.user_ext = {};
+			this.userInfo.user_name =v.user_name;
+			this.userInfo.user_id = v.user_id;
+			this.userInfo.user_ext = v;
 			
 			console.log(k, v);
 		}
