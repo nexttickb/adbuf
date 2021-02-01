@@ -13,6 +13,12 @@ class Messager extends Base{
 		}
 		return res.res[0];
 	}
+	async matchAgent(req){
+		let user = await this.checkToken(req);
+		await this.db.update('media.user', {user_id:user.user_id}, {manager_name:'admin'});
+		let res = await this.db.find('media.user', {user_name:'hello'}, {});
+		return {code:0, data:{code:0, info:'分配客服 成功', data:res.res[0]}};
+	}
 	async getSequence(user_id){
 		let res = await this.db.find('media.sequence', {user_id: user_id}, {});
 		if(res.res.length <= 0){
@@ -142,6 +148,23 @@ class Messager extends Base{
 		}
 		res = await this.db.find('media.user', {user_name:req.userName}, {});
 		return {code:0, data:{code:0, info:'成功', data:res.res[0]}};
+	}
+	async guestLogin(req, params){
+		//TODO:id可取浏览器指纹
+		let id = (new Date()).valueOf();
+		let data = {
+			user_id:id,
+			user_name:id,
+			user_phone:'1111', 
+			user_type:1, 
+			user_password: '',
+			user_token:uuid.v1(),
+			sock_id:params.sockId,
+			user_time:(new Date()).valueOf()
+		};
+		await this.db.insert('media.sequence', {user_id:data.user_id, seq:0}, {});
+		await this.db.insert('media.user', data, {});
+		return {code:0, data:{code:0, info:'成功', data: data}};
 	}
 	async checkVersion(req, params){
 		let user = await this.checkToken(req);

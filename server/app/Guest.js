@@ -16,7 +16,7 @@ class Guest extends Base{
 	}
 	
 	async login(req, params){
-		let termId = this.makeUid(params.sock);
+		let termId = uuid.v1();//this.makeUid(params.sock);
 		let token = uuid.v1();//'11111111991';//Number(Math.random().toString().substr(3,length) + Date.now()).toString(36);
 		let userInfo = {
 			user_id:termId, 
@@ -25,7 +25,7 @@ class Guest extends Base{
 			user_type:0,
 			user_remarks:'访客',
 			user_time:(new Date()).valueOf(),
-			user_ext:this.cinfo.getInfo(params.sock)
+			user_ext:{},//this.cinfo.getInfo(params.sockId)
 		};
 		let res = await this.db.find('media.user', {user_id:termId}, {});
 		if(res.res.length <= 0){

@@ -19,8 +19,8 @@ class Admin extends Base{
 
 
 	async appConfigGet(){
-		let apps = await this.db.find('media.app', {}, {});
-		let menus = await this.db.find('media.menu', {}, {});
+		let apps = await this.db.find('media.app', {}, 0, 0, 100, {});
+		let menus = await this.db.find('media.menu', {}, 0, 0, 100, {});
 		return {code:0, data:{code:0, info:'成功', data:{apps:apps.res, menus:menus.res}}};
 	}
 	async apiInit(){
