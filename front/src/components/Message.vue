@@ -10,8 +10,8 @@
 			</div>
 			<div style="background:#fff;flex:1;" class="scl inner">
 				<div style="float:left;width:100%;height:2rem;border-top:1px solid #eee;" v-for="(value, key) in onlineData.onlineList"  :class="[activeUserId == key?'active':'']" @click="onMenuClick(key, value)">
-					<div style="height:1rem;line-height:1rem;display:flex;"><div style="flex:1">客户: {{value.name}}</div><div style="width:2rem;color:#999">00:42</div></div>
-					<div style="height:0.9rem;color:#666;">你好....</div>
+					<div style="height:1rem;line-height:1rem;display:flex;"><div style="flex:1">客户: {{value.name}}</div><div style="width:2rem;color:#ccc">00:42</div></div>
+					<div style="height:0.9rem;color:#ccc;">你好....</div>
 				</div>
 			</div>
 		</div>
@@ -179,7 +179,7 @@ export default {
 			}, {mode : 0, timeout: 0, req:'message'});
 			this.addMessage({isme:0, msgId:"aaaaaaa", name:"", avatar:"", type:"t", content:"hello"});
 			
-			this.$set(this, 'userInfo', params);
+		//	this.$set(this, 'userInfo', params);
 		//	this.$set(this.userInfo, 'user_ext', params);
 			/*
 			this.userInfo.user_name = params.user_name;
@@ -251,6 +251,12 @@ export default {
 		},
 		onMenuClick(k, v){
 			this.activeUserId = k;
+
+			//test
+			this.userInfo.user_name =v.name;
+			this.userInfo.user_id = k;
+			this.userInfo.user_ext = {};
+			
 			console.log(k, v);
 		}
 	}
@@ -463,38 +469,11 @@ export default {
 		padding:0.1rem;
 	}
 	
-	
-	.left-menus{
-		@left-menu-bg-color:#fff;
-		@left-menu-active-color:#38f;
-		@left-menu-height:35px;
-		@left-menu-font-color:#666;
-		
-		width:7rem;
-		box-sizing:border-box;
-		color:#333;
-		ul{
-			margin:0px;
-			padding:0px;
-			li{
-				list-style:none;
-				cursor:pointer;
-				width:100%;
-				height:@left-menu-height;
-				margin-bottom:2px;
-				text-align:left;
-				padding:0.1rem;
-				font-size:0.7rem;
-				background:@left-menu-bg-color;
-				line-height:@left-menu-height;
-				color:@left-menu-font-color;
-			}
-			.active{
-				color:@left-menu-bg-color;
-				background:@left-menu-active-color;
-			}
-		}
+	.active{
+		color:#fff;
+		background:#38f;
 	}
+
 	
 	
 	
