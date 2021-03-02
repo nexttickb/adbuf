@@ -13,7 +13,7 @@ class IoBuf{
 		this.reqNum = 0;//req 0-999999
 		this.status = 0;
 		this.hold = {};
-		this.addr = addr || 'ws://97.64.82.95:3000/';
+		this.addr = addr || 'ws://74.120.172.107:3000/';
 	//	this.connect();
 		this.ws = false;
 		this.isComp = 0;
